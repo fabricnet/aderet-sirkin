@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>סטטיסטיקות האתר</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --surface-0:#f3f2ee; --surface-1:#fcfcfb; --line:#e4e2dc; --grid:#ebe9e3;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#7a7974;
+  --series-1:#2a78d6; --series-2:#eb6834; --accent:#E39A24;
+  --seq-0:#f1f6fd; --seq-1:#cde2fb; --seq-2:#9ec5f4; --seq-3:#6da7ec; --seq-4:#3987e5; --seq-5:#256abf; --seq-6:#184f95; --seq-7:#0d366b;
+}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){
+  color-scheme:dark;
+  --surface-0:#121211; --surface-1:#1a1a19; --line:#2e2d2b; --grid:#262624;
+  --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#8f8e86;
+  --series-1:#3987e5; --series-2:#d95926;
+  --seq-0:#1d2430; --seq-1:#104281; --seq-2:#184f95; --seq-3:#1c5cab; --seq-4:#256abf; --seq-5:#3987e5; --seq-6:#6da7ec; --seq-7:#b7d3f6;}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --surface-0:#121211; --surface-1:#1a1a19; --line:#2e2d2b; --grid:#262624;
+  --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#8f8e86;
+  --series-1:#3987e5; --series-2:#d95926;
+  --seq-0:#1d2430; --seq-1:#104281; --seq-2:#184f95; --seq-3:#1c5cab; --seq-4:#256abf; --seq-5:#3987e5; --seq-6:#6da7ec; --seq-7:#b7d3f6;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-0);color:var(--text-primary);font-family:Rubik,"Segoe UI",Arial,sans-serif;font-size:15px;line-height:1.45}
+main{max-width:1180px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:24px;margin:0}
+h2{font-size:17px;margin:0 0 2px}
+.sub{color:var(--text-secondary);font-size:13px;margin:0 0 12px}
+header{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-bottom:16px}
+.ctl{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+button,input,select{font:inherit;color:inherit}
+.seg button{border:1px solid var(--line);background:var(--surface-1);padding:6px 12px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);font-weight:500}
+.btn{border:1px solid var(--line);background:var(--surface-1);padding:6px 12px;border-radius:8px;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#1d1a14;font-weight:500}
+.card{background:var(--surface-1);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;min-width:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.tile{background:var(--surface-1);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.tile .v{font-size:28px;font-weight:700;font-variant-numeric:tabular-nums}
+.tile .l{font-size:13px;color:var(--text-secondary)}
+.banner{background:#fff4dc;color:#5a4410;border:1px solid #f0d49a;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:14px}
+:root[data-theme="dark"] .banner{background:#3a2f17;color:#f3e2b8;border-color:#5c4a22}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .banner{background:#3a2f17;color:#f3e2b8;border-color:#5c4a22}}
+.chartbox{position:relative;height:280px}
+.chartbox.tall{height:440px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:start;white-space:nowrap;font-variant-numeric:tabular-nums}
+th{color:var(--text-secondary);font-weight:500;cursor:pointer;user-select:none;position:sticky;top:0;background:var(--surface-1)}
+th[aria-sort="descending"]::after{content:" ▼";font-size:10px}th[aria-sort="ascending"]::after{content:" ▲";font-size:10px}
+td.mine{font-weight:700;color:var(--accent)}
+.tablewrap{overflow:auto;max-height:520px}
+.heat{display:grid;grid-template-columns:auto repeat(3,1fr);gap:3px;font-size:13px}
+.heat .h{color:var(--text-secondary);text-align:center;padding:4px}
+.heat .f{color:var(--text-secondary);padding:6px 8px;text-align:end}
+.heat .c{border-radius:6px;padding:8px 6px;text-align:center;font-variant-numeric:tabular-nums;cursor:default}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--text-secondary);margin-bottom:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-inline-end:5px;vertical-align:-1px}
+.bars .row{display:grid;grid-template-columns:minmax(90px,150px) 1fr 46px;gap:8px;align-items:center;margin:5px 0;font-size:13.5px}
+.bars .row>span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bars .track{background:var(--grid);border-radius:4px;height:12px;overflow:hidden}
+.bars .fill{background:var(--series-1);height:100%;border-radius:4px}
+.bars .n{text-align:end;font-variant-numeric:tabular-nums;color:var(--text-secondary)}
+.login{max-width:420px;margin:60px auto;text-align:center}
+.login input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-1);margin:12px 0}
+.muted{color:var(--text-muted);font-size:13px}
+.empty{color:var(--text-muted);padding:20px 0;text-align:center}
+@media (max-width:860px){.tiles{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div><h1>סטטיסטיקות האתר</h1><p class="sub" id="subt">אדרת גני סירקין · נתונים אנונימיים מהאתר</p></div>
+    <div class="ctl">
+      <div class="seg" id="period" role="group" aria-label="תקופה">
+        <button data-d="7">7 ימים</button><button data-d="30" aria-pressed="true">30 יום</button><button data-d="0">הכל</button>
+      </div>
+      <button class="btn" id="refresh">רענון</button>
+      <button class="btn" id="logout" hidden>התנתקות</button>
+    </div>
+  </header>
+  <div id="banner"></div>
+  <section id="loginView" class="card login" hidden>
+    <h2>כניסה</h2>
+    <p class="sub">הכניסה רק לבעל האתר. הזינו את המייל שלכם, ונשלח אליכם קישור כניסה.</p>
+    <form id="loginForm"><input id="email" type="email" required placeholder="המייל שלך" autocomplete="email" dir="ltr">
+      <button class="btn primary" type="submit">שלחו לי קישור כניסה</button></form>
+    <p class="muted" id="loginMsg"></p>
+  </section>
+  <section id="dash" hidden>
+    <div class="tiles" id="tiles"></div>
+    <div class="grid2">
+      <div class="card"><h2>כניסות לאתר</h2><p class="sub">לפי יום · מבקרים ייחודיים וסך כניסות</p>
+        <div class="legend"><span><i style="background:var(--series-1)"></i>מבקרים ייחודיים</span><span><i style="background:var(--series-2)"></i>כניסות</span></div>
+        <div class="chartbox"><canvas id="cVisits" aria-label="גרף כניסות לפי יום"></canvas></div></div>
+      <div class="card"><h2>מפת ביקוש לפי בניין וקומה</h2><p class="sub">סכום ציון הביקוש של הדירות בכל קומה · כהה = מבוקש יותר</p>
+        <div class="heat" id="heat"></div></div>
+    </div>
+    <div class="card"><h2>הדירות המבוקשות ביותר</h2>
+      <p class="sub">ציון ביקוש: דירה במקום הראשון ברשימה של מישהו = נקודה, במקום השני = ½, שלישי = ⅓ וכן הלאה. מבוסס על הרשימה האחרונה של כל מבקר.</p>
+      <div class="chartbox tall"><canvas id="cTop" aria-label="הדירות המבוקשות ביותר"></canvas></div></div>
+    <div class="card" id="mineCard"><h2>הרשימה שלי מול כולם</h2><p class="sub" id="mineSub"></p><div class="tablewrap"><table id="mine"></table></div></div>
+    <div class="card"><h2>כל הדירות</h2><p class="sub">לחצו על כותרת עמודה כדי למיין</p><div class="tablewrap"><table id="all"></table></div></div>
+    <div class="grid2">
+      <div class="card"><h2>מכשירים ושפה</h2><div class="bars" id="dev"></div></div>
+      <div class="card"><h2>מה עושים באתר</h2><div class="bars" id="acts"></div></div>
+    </div>
+    <div class="card"><h2>מאיפה הגיעו</h2><div class="bars" id="refs"></div></div>
+    <p class="muted">הנתונים אנונימיים: מזהה אקראי לכל דפדפן, בלי שם, טלפון, מייל, מספר זכייה או הערות. הכניסות שלך מהדפדפן הזה לא נספרות.</p>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const CFG={"url":"https://bhqqcehtkqjcjjolhhee.supabase.co","key":"sb_publishable_oXMR9TC_osqc8k0Yj_lCGg_uyCgXQ5X"}
+, UNITS=[{"b": 1, "f": 8, "a": 173.2, "o": 27.36}, {"b": 1, "f": 8, "a": 147.46, "o": null}, {"b": 1, "f": 7, "a": 112.21, "o": null}, {"b": 1, "f": 7, "a": 138.33, "o": null}, {"b": 1, "f": 7, "a": 89.21, "o": null}, {"b": 1, "f": 7, "a": 105.23, "o": null}, {"b": 1, "f": 6, "a": 79.73, "o": null}, {"b": 1, "f": 6, "a": 76.37, "o": null}, {"b": 1, "f": 6, "a": 108.86, "o": null}, {"b": 1, "f": 6, "a": 90.05, "o": null}, {"b": 1, "f": 6, "a": 107.07, "o": null}, {"b": 1, "f": 5, "a": 79.73, "o": null}, {"b": 1, "f": 5, "a": 76.37, "o": null}, {"b": 1, "f": 5, "a": 108.86, "o": null}, {"b": 1, "f": 5, "a": 90.05, "o": null}, {"b": 1, "f": 5, "a": 107.07, "o": null}, {"b": 1, "f": 4, "a": 79.73, "o": null}, {"b": 1, "f": 4, "a": 76.37, "o": null}, {"b": 1, "f": 4, "a": 108.86, "o": null}, {"b": 1, "f": 4, "a": 90.05, "o": null}, {"b": 1, "f": 4, "a": 107.07, "o": null}, {"b": 1, "f": 3, "a": 79.73, "o": null}, {"b": 1, "f": 3, "a": 76.37, "o": null}, {"b": 1, "f": 3, "a": 108.86, "o": null}, {"b": 1, "f": 3, "a": 90.05, "o": null}, {"b": 1, "f": 3, "a": 107.07, "o": null}, {"b": 1, "f": 2, "a": 79.73, "o": null}, {"b": 1, "f": 2, "a": 76.37, "o": null}, {"b": 1, "f": 2, "a": 108.86, "o": null}, {"b": 1, "f": 2, "a": 90.05, "o": null}, {"b": 1, "f": 2, "a": 107.07, "o": null}, {"b": 1, "f": 1, "a": 79.73, "o": null}, {"b": 1, "f": 1, "a": 76.37, "o": null}, {"b": 1, "f": 1, "a": 108.85, "o": null}, {"b": 1, "f": 1, "a": 90.05, "o": null}, {"b": 1, "f": 1, "a": 107.07, "o": null}, {"b": 1, "f": 0, "a": 168.0, "o": 29.6}, {"b": 2, "f": 8, "a": 142.29, "o": 27.73}, {"b": 2, "f": 8, "a": 144.25, "o": null}, {"b": 2, "f": 7, "a": 142.29, "o": 27.27}, {"b": 2, "f": 7, "a": 145.25, "o": null}, {"b": 2, "f": 6, "a": 138.4, "o": null}, {"b": 2, "f": 6, "a": 126.12, "o": null}, {"b": 2, "f": 6, "a": 106.87, "o": null}, {"b": 2, "f": 6, "a": 90.08, "o": null}, {"b": 2, "f": 5, "a": 138.4, "o": null}, {"b": 2, "f": 5, "a": 126.12, "o": null}, {"b": 2, "f": 5, "a": 106.87, "o": null}, {"b": 2, "f": 5, "a": 90.08, "o": null}, {"b": 2, "f": 4, "a": 108.85, "o": null}, {"b": 2, "f": 4, "a": 76.37, "o": null}, {"b": 2, "f": 4, "a": 79.64, "o": null}, {"b": 2, "f": 4, "a": 106.26, "o": null}, {"b": 2, "f": 4, "a": 90.08, "o": null}, {"b": 2, "f": 3, "a": 108.85, "o": null}, {"b": 2, "f": 3, "a": 76.37, "o": null}, {"b": 2, "f": 3, "a": 79.64, "o": null}, {"b": 2, "f": 3, "a": 106.26, "o": null}, {"b": 2, "f": 3, "a": 90.08, "o": null}, {"b": 2, "f": 2, "a": 108.85, "o": null}, {"b": 2, "f": 2, "a": 76.37, "o": null}, {"b": 2, "f": 2, "a": 79.64, "o": null}, {"b": 2, "f": 2, "a": 106.26, "o": null}, {"b": 2, "f": 2, "a": 90.08, "o": null}, {"b": 2, "f": 1, "a": 108.85, "o": null}, {"b": 2, "f": 1, "a": 76.37, "o": null}, {"b": 2, "f": 1, "a": 79.64, "o": null}, {"b": 2, "f": 1, "a": 106.26, "o": null}, {"b": 2, "f": 1, "a": 90.08, "o": null}, {"b": 3, "f": 8, "a": 157.07, "o": null}, {"b": 3, "f": 8, "a": 149.14, "o": null}, {"b": 3, "f": 7, "a": 157.07, "o": null}, {"b": 3, "f": 7, "a": 149.14, "o": null}, {"b": 3, "f": 6, "a": 110.5, "o": null}, {"b": 3, "f": 6, "a": 138.36, "o": null}, {"b": 3, "f": 6, "a": 125.98, "o": null}, {"b": 3, "f": 6, "a": 108.37, "o": null}, {"b": 3, "f": 5, "a": 110.5, "o": null}, {"b": 3, "f": 5, "a": 108.84, "o": null}, {"b": 3, "f": 5, "a": 76.37, "o": null}, {"b": 3, "f": 5, "a": 79.21, "o": null}, {"b": 3, "f": 5, "a": 108.37, "o": null}, {"b": 3, "f": 4, "a": 110.5, "o": null}, {"b": 3, "f": 4, "a": 108.84, "o": null}, {"b": 3, "f": 4, "a": 76.37, "o": null}, {"b": 3, "f": 4, "a": 79.21, "o": null}, {"b": 3, "f": 4, "a": 108.37, "o": null}, {"b": 3, "f": 3, "a": 110.5, "o": null}, {"b": 3, "f": 3, "a": 108.84, "o": null}, {"b": 3, "f": 3, "a": 76.37, "o": null}, {"b": 3, "f": 3, "a": 79.21, "o": null}, {"b": 3, "f": 3, "a": 108.37, "o": null}, {"b": 3, "f": 2, "a": 110.5, "o": null}, {"b": 3, "f": 2, "a": 108.84, "o": null}, {"b": 3, "f": 2, "a": 76.37, "o": null}, {"b": 3, "f": 2, "a": 79.21, "o": null}, {"b": 3, "f": 2, "a": 108.37, "o": null}, {"b": 3, "f": 1, "a": 110.5, "o": null}, {"b": 3, "f": 1, "a": 108.84, "o": null}, {"b": 3, "f": 1, "a": 76.37, "o": null}, {"b": 3, "f": 1, "a": 79.21, "o": null}, {"b": 3, "f": 1, "a": 108.37, "o": null}, {"b": 3, "f": 0, "a": 109.9, "o": null}, {"b": 3, "f": 0, "a": 76.26, "o": null}, {"b": 3, "f": 0, "a": 80.85, "o": null}], APTS=[{"id":"1A","b":1,"k":"A","col":3,"beds":2},{"id":"1B","b":1,"k":"B","col":4,"beds":3},{"id":"1C","b":1,"k":"C","col":2,"beds":3},{"id":"1D","b":1,"k":"D","col":1,"beds":2},{"id":"1E","b":1,"k":"E","col":0,"beds":2},{"id":"2A","b":2,"k":"A","col":4,"beds":2},{"id":"2B","b":2,"k":"B","col":3,"beds":3},{"id":"2C","b":2,"k":"C","col":0,"beds":3},{"id":"2D","b":2,"k":"D","col":1,"beds":2},{"id":"2E","b":2,"k":"E","col":2,"beds":2},{"id":"3A","b":3,"k":"A","col":2,"beds":2},{"id":"3B","b":3,"k":"B","col":3,"beds":2},{"id":"3C","b":3,"k":"C","col":1,"beds":3},{"id":"3D","b":3,"k":"D","col":0,"beds":3},{"id":"3E","b":3,"k":"E","col":4,"beds":3}];
+const TYPICAL={1:[1,6],2:[1,4],3:[1,5]};
+const PRICE={m2:15022,vat:.18,disc:.2,cap:300000};
+const isTypical=(b,f)=>f>=TYPICAL[b][0]&&f<=TYPICAL[b][1];
+const net=a=>{const g=a*PRICE.m2*(1+PRICE.vat);return g-Math.min(g*PRICE.disc,PRICE.cap)};
+const fmt=n=>Math.round(n).toLocaleString('he-IL');
+const $=id=>document.getElementById(id);
+const esc=v=>String(v==null?'':v).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const floorName=f=>f===0?'קרקע':''+f;
+
+// the same unit keys the site uses: b-f-k on typical floors (k = A..E), b-f-n elsewhere
+const CAT={};UNITS.forEach(u=>{const fl=UNITS.filter(v=>v.b===u.b&&v.f===u.f),n=fl.indexOf(u)+1;
+  const a=isTypical(u.b,u.f)?APTS.find(x=>x.b===u.b&&x.col===n-1):null;const key=u.b+'-'+u.f+'-'+(a?a.k:n);
+  CAT[key]={key,b:u.b,f:u.f,area:u.a,rooms:a?a.beds+1:null,name:a?a.b+a.k:'יחידה '+n}});
+const label=k=>{const c=CAT[k];return c?c.name+' · ק׳ '+floorName(c.f):k};
+
+const DEMO=/[?&]demo=1/.test(location.search);
+const ON=!!(CFG.url&&CFG.key);
+let sb=null,DAYS=30,DATA=null,charts={};
+let ME=null;try{ME=localStorage.getItem('aderet-vid')}catch(e){}
+let MYLIST=[];try{MYLIST=JSON.parse(localStorage.getItem('aderet-rank')||'[]')}catch(e){}
+
+function banner(html){$('banner').innerHTML=html?'<div class="banner">'+html+'</div>':''}
+
+// ---------- data ----------
+async function load(){
+  if(DEMO){DATA=demoData();return render()}
+  const since=DAYS?new Date(Date.now()-DAYS*864e5).toISOString():'1970-01-01';
+  const q=(t,time)=>{let r=sb.from(t).select('*').order('at',{ascending:true}).limit(20000);if(time)r=r.gte('at',since);return r};
+  const [v,e,l]=await Promise.all([q('visits',true),q('events',true),q('lists',false)]);
+  const err=v.error||e.error||l.error;if(err){banner('שגיאה בטעינת הנתונים: '+esc(err.message));return}
+  DATA={visits:v.data,events:e.data,lists:l.data};render()}
+
+function demoData(){ // synthetic data for previewing the page; never mixed with real data
+  const keys=Object.keys(CAT),pop=keys.map(k=>{const c=CAT[k];return {k,w:(c.rooms===4?3:1)*(c.f>=3&&c.f<=6?2:1)*(c.b===1?1.4:1)*Math.random()}}).sort((a,b)=>b.w-a.w);
+  const visits=[],events=[],lists=[];const now=Date.now();
+  for(let i=0;i<70;i++){const vid='v'+i,n=1+Math.floor(Math.random()*4);
+    for(let j=0;j<n;j++){const at=new Date(now-Math.random()*29*864e5).toISOString();
+      visits.push({at,vid,lang:Math.random()<.85?'he':'en',device:Math.random()<.7?'mobile':'desktop',ref:['direct','web.whatsapp.com','l.facebook.com','direct'][i%4]})}
+    if(Math.random()<.6){const len=5+Math.floor(Math.random()*50);const picks=[];for(const p of pop)if(Math.random()<.55&&picks.length<len)picks.push(p.k);
+      lists.push({at:new Date(now-Math.random()*20*864e5).toISOString(),vid,keys:picks});picks.slice(0,6).forEach(k=>events.push({at:visits[visits.length-1].at,vid,type:'add',apt:k}))}
+    for(let j=0;j<Math.random()*5;j++){const p=pop[Math.floor(Math.random()*20)];events.push({at:visits[visits.length-1].at,vid,type:'walk',apt:p.k})}
+    if(Math.random()<.2)events.push({at:visits[visits.length-1].at,vid,type:'csv'})}
+  if(DAYS){const s=new Date(now-DAYS*864e5).toISOString();return {visits:visits.filter(v=>v.at>=s),events:events.filter(v=>v.at>=s),lists}}
+  return {visits,events,lists}}
+
+// ---------- analysis ----------
+function analyse(D){
+  const visits=D.visits.filter(v=>v.vid!==ME),events=D.events.filter(v=>v.vid!==ME);
+  const latest={};D.lists.filter(l=>l.vid!==ME).forEach(l=>{if(!latest[l.vid]||l.at>latest[l.vid].at)latest[l.vid]=l});
+  const lists=Object.values(latest).map(l=>l.keys).filter(k=>k&&k.length);
+  const S={};Object.keys(CAT).forEach(k=>S[k]={k,score:0,inLists:0,first:0,top5:0,top10:0,posSum:0,walks:0,adds:0});
+  lists.forEach(L=>L.forEach((k,i)=>{const s=S[k];if(!s)return;s.score+=1/(i+1);s.inLists++;s.posSum+=i+1;if(i===0)s.first++;if(i<5)s.top5++;if(i<10)s.top10++}));
+  events.forEach(e=>{const s=S[e.apt];if(!s)return;if(e.type==='walk')s.walks++;if(e.type==='add')s.adds++});
+  Object.values(S).forEach(s=>s.avgPos=s.inLists?s.posSum/s.inLists:null);
+  return {visits,events,lists,S}}
+
+// ---------- render ----------
+function render(){
+  const A=analyse(DATA),uniq=new Set(A.visits.map(v=>v.vid));
+  const avgLen=A.lists.length?A.lists.reduce((t,l)=>t+l.length,0)/A.lists.length:0;
+  const walkers=new Set(A.events.filter(e=>e.type==='walk').map(e=>e.vid));
+  $('tiles').innerHTML=[[uniq.size,'מבקרים ייחודיים'],[A.visits.length,'כניסות לאתר'],[walkers.size,'נכנסו לסיור בדירה'],[A.lists.length,'בנו רשימת עדיפויות'],[avgLen?avgLen.toFixed(1):'–','אורך רשימה ממוצע']]
+    .map(([v,l])=>'<div class="tile"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>').join('');
+  renderVisits(A);renderTop(A);renderHeat(A);renderMine(A);renderAll(A);
+  bars('dev',[...count(A.visits,v=>v.device==='mobile'?'טלפון':'מחשב'),...count(A.visits,v=>v.lang==='he'?'עברית':'English')]);
+  const T={walk:'כניסה לסיור בדירה',add:'הוספה לרשימה',remove:'הסרה מהרשימה',csv:'ייצוא לאקסל',print:'הדפסה',share:'שיתוף קישור'};
+  bars('acts',count(A.events,e=>T[e.type]||e.type));
+  bars('refs',count(A.visits,v=>v.ref==='direct'||!v.ref?'ישיר / לא ידוע':v.ref).slice(0,8));
+  if(!A.visits.length&&!A.lists.length)banner((DEMO?'':'עדיין אין נתונים בתקופה הזו. ')+'הנתונים יופיעו ברגע שאנשים ייכנסו לאתר.')}
+
+function count(arr,f){const m={};arr.forEach(x=>{const k=f(x);m[k]=(m[k]||0)+1});return Object.entries(m).sort((a,b)=>b[1]-a[1])}
+function bars(id,rows){const max=Math.max(1,...rows.map(r=>r[1]));
+  $(id).innerHTML=rows.length?rows.map(([k,n])=>'<div class="row"><span>'+esc(k)+'</span><div class="track"><div class="fill" style="width:'+(n/max*100)+'%"></div></div><span class="n">'+n+'</span></div>').join(''):'<p class="empty">אין נתונים</p>'}
+
+function chartDefaults(){Chart.defaults.font.family='Rubik, Arial, sans-serif';Chart.defaults.color=css('--text-secondary');Chart.defaults.borderColor=css('--grid')}
+function renderVisits(A){chartDefaults();
+  const days=[];const end=new Date();end.setHours(0,0,0,0);
+  const first=A.visits.length?new Date(A.visits[0].at):end;first.setHours(0,0,0,0);
+  const start=DAYS?new Date(end-(DAYS-1)*864e5):first;
+  for(let d=new Date(start);d<=end;d=new Date(d.getTime()+864e5))days.push(d.toISOString().slice(0,10));
+  const tot={},un={};A.visits.forEach(v=>{const d=new Date(v.at);d.setHours(0,0,0,0);const k=new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+    tot[k]=(tot[k]||0)+1;(un[k]=un[k]||new Set()).add(v.vid)});
+  const lab=days.map(d=>d.slice(8,10)+'/'+d.slice(5,7));
+  charts.v&&charts.v.destroy();
+  charts.v=new Chart($('cVisits'),{type:'line',data:{labels:lab,datasets:[
+    {label:'מבקרים ייחודיים',data:days.map(d=>un[d]?un[d].size:0),borderColor:css('--series-1'),backgroundColor:css('--series-1'),borderWidth:2,pointRadius:0,pointHoverRadius:5,tension:.25},
+    {label:'כניסות',data:days.map(d=>tot[d]||0),borderColor:css('--series-2'),backgroundColor:css('--series-2'),borderWidth:2,pointRadius:0,pointHoverRadius:5,tension:.25}]},
+    options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{rtl:true,textDirection:'rtl'}},
+      scales:{x:{reverse:true,grid:{display:false},ticks:{maxTicksLimit:10}},y:{beginAtZero:true,ticks:{precision:0},position:'right'}}}})}
+function renderTop(A){
+  const top=Object.values(A.S).filter(s=>s.score>0).sort((a,b)=>b.score-a.score).slice(0,15);
+  charts.t&&charts.t.destroy();
+  if(!top.length){$('cTop').parentElement.style.height='auto';$('cTop').replaceWith(Object.assign(document.createElement('p'),{className:'empty',textContent:'עדיין אף אחד לא בנה רשימה',id:'cTop'}));return}
+  charts.t=new Chart($('cTop'),{type:'bar',data:{labels:top.map(s=>label(s.k)),datasets:[{label:'ציון ביקוש',data:top.map(s=>+s.score.toFixed(2)),
+      backgroundColor:css('--series-1'),borderRadius:4,borderSkipped:'start',barPercentage:.7}]},
+    options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{rtl:true,textDirection:'rtl',callbacks:{
+      afterLabel:c=>{const s=top[c.dataIndex];return ['ברשימות של '+s.inLists+' מבקרים','במקום ראשון: '+s.first+' · ב־5 הראשונים: '+s.top5,'מיקום ממוצע: '+(s.avgPos?s.avgPos.toFixed(1):'–')]}}}},
+      scales:{x:{beginAtZero:true,reverse:true,grid:{color:css('--grid')}},y:{position:'right',grid:{display:false}}}}})}
+function renderHeat(A){
+  const cell={};Object.values(A.S).forEach(s=>{const c=CAT[s.k];const k=c.b+'-'+c.f;cell[k]=(cell[k]||0)+s.score});
+  const max=Math.max(.0001,...Object.values(cell));const steps=['--seq-0','--seq-1','--seq-2','--seq-3','--seq-4','--seq-5','--seq-6','--seq-7'];
+  let h='<div></div>'+[1,2,3].map(b=>'<div class="h">בניין '+b+'</div>').join('');
+  for(let f=8;f>=0;f--){h+='<div class="f">'+(f===0?'קרקע':'קומה '+f)+'</div>';
+    for(const b of [1,2,3]){const v=cell[b+'-'+f]||0,i=v?Math.min(7,1+Math.floor(v/max*6.999)):0;
+      h+='<div class="c" style="background:var('+steps[i]+');color:'+(i>=4?'#fff':'var(--text-primary)')+'" title="בניין '+b+', '+(f===0?'קרקע':'קומה '+f)+': '+v.toFixed(2)+'">'+(v?v.toFixed(1):'·')+'</div>'}}
+  $('heat').innerHTML=h}
+function row(s,cols){return '<tr>'+cols.map(c=>'<td'+(c[1]?' class="'+c[1]+'"':'')+'>'+c[0]+'</td>').join('')+'</tr>'}
+function renderMine(A){
+  if(!MYLIST.length){$('mineSub').textContent='בדפדפן הזה אין רשימה. פתחו את הדף בדפדפן שבו בניתם את "הרשימה שלי" כדי לראות את ההשוואה.';$('mine').innerHTML='';return}
+  $('mineSub').textContent='לכל דירה ברשימה שלך: כמה מבקרים אחרים שמו אותה גבוה. ככל שיותר אנשים שמו אותה במקום גבוה, כך גדל הסיכוי שמישהו לפניך יבחר אותה.';
+  $('mine').innerHTML='<thead><tr><th>המקום שלי</th><th>דירה</th><th>ציון ביקוש</th><th>במקום ראשון</th><th>ב־5 הראשונים</th><th>ב־10 הראשונים</th><th>ברשימות</th></tr></thead><tbody>'+
+    MYLIST.map((k,i)=>{const s=A.S[k]||{};return row(s,[[i+1,'mine'],[esc(label(k))],[s.score?s.score.toFixed(2):'0'],[s.first||0],[s.top5||0],[s.top10||0],[s.inLists||0]])}).join('')+'</tbody>'}
+let SORT={c:'score',d:-1};
+function renderAll(A){
+  const cols=[['#',null],['דירה',null],['בניין','b'],['קומה','f'],['שטח מ״ר','area'],['מחיר משוער ₪','price'],['ציון ביקוש','score'],['ברשימות','inLists'],['במקום ראשון','first'],['ב־5 הראשונים','top5'],['מיקום ממוצע','avgPos'],['כניסות לסיור','walks'],['המקום שלי','mine']];
+  const rows=Object.values(A.S).map(s=>{const c=CAT[s.k];return {...s,b:c.b,f:c.f,area:c.area,price:net(c.area),mine:MYLIST.indexOf(s.k)+1||null}});
+  rows.sort((a,b)=>{const x=a[SORT.c],y=b[SORT.c];if(x==null&&y==null)return 0;if(x==null)return 1;if(y==null)return -1;return (x-y)*SORT.d});
+  $('all').innerHTML='<thead><tr>'+cols.map(([t,k])=>'<th'+(k?' data-k="'+k+'"'+(SORT.c===k?' aria-sort="'+(SORT.d<0?'descending':'ascending')+'"':''):'')+'>'+t+'</th>').join('')+'</tr></thead><tbody>'+
+    rows.map((r,i)=>row(r,[[i+1],[esc(label(r.k))],[r.b],[floorName(r.f)],[r.area.toFixed(1)],[fmt(r.price)],[r.score.toFixed(2)],[r.inLists],[r.first],[r.top5],[r.avgPos?r.avgPos.toFixed(1):'–'],[r.walks],[r.mine||'',r.mine?'mine':'']])).join('')+'</tbody>';
+  $('all').querySelectorAll('th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k;SORT=SORT.c===k?{c:k,d:-SORT.d}:{c:k,d:k==='avgPos'||k==='mine'||k==='b'||k==='f'?1:-1};renderAll(analyse(DATA))})}
+
+// ---------- controls ----------
+document.querySelectorAll('#period button').forEach(b=>b.onclick=()=>{DAYS=+b.dataset.d;document.querySelectorAll('#period button').forEach(x=>x.setAttribute('aria-pressed',x===b));load()});
+$('refresh').onclick=()=>load();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>DATA&&render());
+
+// ---------- start ----------
+(async function(){
+  if(DEMO){banner('תצוגה לדוגמה: הנתונים כאן מומצאים, רק כדי לראות איך הדף נראה.');$('dash').hidden=false;return load()}
+  if(!ON){banner('איסוף הנתונים עוד לא הופעל: חסרים פרטי הפרויקט ב־Supabase. <a href="?demo=1">תצוגה לדוגמה</a>');return}
+  sb=supabase.createClient(CFG.url,CFG.key,{auth:{persistSession:true,detectSessionInUrl:true,flowType:'implicit'}});
+  try{localStorage.setItem('aderet-notrack','1')}catch(e){} // the owner's own browser is not counted
+  const show=async session=>{$('loginView').hidden=!!session;$('dash').hidden=!session;$('logout').hidden=!session;if(session)load()};
+  const {data:{session}}=await sb.auth.getSession();show(session);
+  sb.auth.onAuthStateChange((_e,s)=>show(s));
+  $('loginForm').onsubmit=async e=>{e.preventDefault();$('loginMsg').textContent='שולח…';
+    const {error}=await sb.auth.signInWithOtp({email:$('email').value.trim(),options:{shouldCreateUser:false,emailRedirectTo:location.origin+location.pathname}});
+    $('loginMsg').textContent=error?'לא ניתן לשלוח: '+error.message:'נשלח! פתחו את הקישור במייל, מהדפדפן הזה.'};
+  $('logout').onclick=async()=>{await sb.auth.signOut();DATA=null};
+})();
+</script>
+</body>
+</html>
