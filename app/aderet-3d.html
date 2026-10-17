@@ -491,7 +491,7 @@ function facadeReal(pts,base,h,group,wins,skip,only){
     const p=pts[i],q=pts[(i+1)%pts.length];const dx=q[0]-p[0],dz=q[1]-p[1];const L=Math.hypot(dx,dz);if(L<0.3||(only&&!only(p,q)))continue;
     const ux=dx/L,uz=dz/L;let nx=dz/L,nz=-dx/L;if(!ccw){nx=-nx;nz=-nz}
     // runs of the edge that are not in front of a balcony
-    const N=Math.max(2,Math.ceil(L/.25)),open=[];for(let k=0;k<N;k++){const t=(k+.5)/N*L;open.push(!skip(p[0]+ux*t-nx*.3,p[1]+uz*t-nz*.3))}
+    const N=Math.max(2,Math.ceil(L/.25)),open=[];for(let k=0;k<N;k++){const t=(k+.5)/N*L;const x=p[0]+ux*t,z=p[1]+uz*t;open.push(![0,.3,-.3,.6,-.6].some(o=>skip(x+nx*o,z+nz*o)))}
     let k=0;while(k<N){if(!open[k]){k++;continue}let j=k;while(j<N&&open[j])j++;
       const t0=k/N*L,t1=j/N*L,len=t1-t0,cx=p[0]+ux*(t0+t1)/2,cz=p[1]+uz*(t0+t1)/2;
       const g=new THREE.PlaneGeometry(len,h);const uv=g.attributes.uv;for(let m=0;m<uv.count;m++)uv.setX(m,uv.getX(m)*Math.max(1,Math.round(len/3)));
@@ -501,7 +501,7 @@ function facadeReal(pts,base,h,group,wins,skip,only){
       const rx=cx-p[0],rz=cz-p[1],t=rx*ux+rz*uz,d=Math.abs(rx*nx+rz*nz);if(d>.6||t<0||t>L)return;
       const wl=Math.abs(ux)>Math.abs(uz)?wx1-wx0:wz1-wz0;if(wl<.4)return;
       const off=only?-.03:.03,sill=w[4],top=2.2,y0=base+sill,hh=top-sill,px=p[0]+ux*t+nx*off,pz=p[1]+uz*t+nz*off; // balcony back walls face inwards
-      if(skip(p[0]+ux*t-nx*.3,p[1]+uz*t-nz*.3))return;
+      if([0,.3,-.3,.6,-.6].some(o=>skip(p[0]+ux*t+nx*o,p[1]+uz*t+nz*o)))return;
       const pane=new THREE.Mesh(new THREE.PlaneGeometry(wl,hh),paneMat);pane.rotation.y=Math.atan2(nx,nz);pane.position.set(px,y0+hh/2,pz);group.add(pane);
       const fr=new THREE.Mesh(GEO.box,frameMat);fr.scale.set(wl+.08,.06,.08);fr.rotation.y=Math.atan2(nx,nz);fr.position.set(px,y0,pz);group.add(fr)})}
 }
