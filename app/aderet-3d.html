@@ -747,14 +747,18 @@ SITE.blds.forEach(bd=>{
     if(r[1]<w[1])o.push([r[0],r[1],r[2],w[1]]);if(w[3]<r[3])o.push([r[0],w[3],r[2],r[3]]);
     if(r[0]<w[0])o.push([r[0],y0,w[0],y1]);if(w[2]<r[2])o.push([w[2],y0,r[2],y1])});rs=o});
   const box=new THREE.BoxGeometry(1,1,1);box.translate(0,.5,0);
-  const inst=new THREE.InstancedMesh(box,wallMat,rs.length+wins.length*2+pdoors.length);const M=new THREE.Matrix4();let ni=0;
+  const inst=new THREE.InstancedMesh(box,wallMat,rs.length*4+wins.length*2+pdoors.length);const M=new THREE.Matrix4();let ni=0;
   const put=(x0,z0,x1,z1,y,h)=>{M.makeScale(x1-x0,h,z1-z0);M.setPosition((x0+x1)/2,y,(z0+z1)/2);inst.setMatrixAt(ni++,M)};
   const inBalc=(x,z)=>balcs.some(bc=>inPoly(x,z,bc.pts));
   const edgeDist=(x,z)=>Math.min(...pts.map((a,i)=>{const b=pts[(i+1)%pts.length],vx=b[0]-a[0],vz=b[1]-a[1],l=vx*vx+vz*vz||1,t=Math.max(0,Math.min(1,((x-a[0])*vx+(z-a[1])*vz)/l));return Math.hypot(x-a[0]-vx*t,z-a[1]-vz*t)}));
-  rs.forEach(r=>{const x0=toX(r[0]),z0=toZ(r[1]),x1=toX(r[2]),z1=toZ(r[3]),cx=(x0+x1)/2,cz=(z0+z1)/2;
-    const parapet=[[0,0],[.3,0],[-.3,0],[0,.3],[0,-.3]].some(([dx,dz])=>inBalc(cx+dx,cz+dz))&&!nearApt(cx,cz,.35);
-    if(parapet&&!inPoly(cx,cz,pts.map(p=>p))||parapet&&edgeDist(cx,cz)<.5)return; // balcony edge: glass rail only
-    put(x0,z0,x1,z1,0,parapet?1.05:WALL_H)});
+  // judge long wall pieces in ~0.4 m sections: one plan wall can run past several balconies
+  const kind=(cx,cz,along)=>{const pr=[0,.3,-.3,.6,-.6].map(d=>along?[0,d]:[d,0]);
+    const parapet=pr.some(([dx,dz])=>inBalc(cx+dx,cz+dz))&&!nearApt(cx,cz,.35);
+    return !parapet?2:(!inPoly(cx,cz,pts)||edgeDist(cx,cz)<.5)?0:1}; // 0 = balcony edge (glass rail only), 1 = parapet, 2 = wall
+  rs.forEach(r=>{const x0=toX(r[0]),z0=toZ(r[1]),x1=toX(r[2]),z1=toZ(r[3]),along=x1-x0>=z1-z0,L=along?x1-x0:z1-z0,n=Math.max(1,Math.round(L/.4));
+    let k0=0,prev=null;for(let k=0;k<=n;k++){const t=(k+.5)/n,c=k<n?kind(along?x0+(x1-x0)*t:(x0+x1)/2,along?(z0+z1)/2:z0+(z1-z0)*t,along):-1;
+      if(prev!==null&&c!==prev){const a=k0/n,b=k/n;if(prev)put(along?x0+(x1-x0)*a:x0,along?z0:z0+(z1-z0)*a,along?x0+(x1-x0)*b:x1,along?z1:z0+(z1-z0)*b,0,prev===1?1.05:WALL_H);k0=k}
+      prev=c}});
   const HEAD=2.2;const glassG=new THREE.Group();const doors=[];
   // plan doorways: lintel above 2.1 m, walkable
   pdoors.forEach(w=>{const x0=toX(w[0]),x1=toX(w[2]),z0=toZ(w[1]),z1=toZ(w[3]);put(x0,z0,x1,z1,2.1,WALL_H-2.1);
